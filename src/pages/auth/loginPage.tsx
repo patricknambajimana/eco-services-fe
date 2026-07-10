@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema,type LoginFormData } from '@/lib/validation/auth';
@@ -7,13 +7,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, EyeOff, Loader2, LogIn, Mail, Key, AlertCircle, ArrowRight } from 'lucide-react';
 
 export const LoginPage = () => {
-  const navigate = useNavigate();
   const { login, googleLogin, isLoading, error, setError } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -23,7 +22,6 @@ export const LoginPage = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -201,6 +199,39 @@ export const LoginPage = () => {
               </svg>
               Continue with Google
             </Button>
+
+            {/* Demo Credentials */}
+            <div className="mt-6 space-y-3">
+              {/* Super Admin */}
+              <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg border border-purple-200">
+                <p className="text-xs font-semibold text-purple-900 mb-2">👑 SUPER ADMIN</p>
+                <div className="space-y-1 text-xs">
+                  <div className="flex items-center justify-between bg-white rounded px-2 py-1">
+                    <span className="text-gray-600">Email:</span>
+                    <code className="font-mono text-purple-600 font-medium">admin@npgroup.com</code>
+                  </div>
+                  <div className="flex items-center justify-between bg-white rounded px-2 py-1">
+                    <span className="text-gray-600">Password:</span>
+                    <code className="font-mono text-purple-600 font-medium">admin123</code>
+                  </div>
+                </div>
+              </div>
+
+              {/* General Manager */}
+              <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+                <p className="text-xs font-semibold text-blue-900 mb-2">👔 GENERAL MANAGER</p>
+                <div className="space-y-1 text-xs">
+                  <div className="flex items-center justify-between bg-white rounded px-2 py-1">
+                    <span className="text-gray-600">Email:</span>
+                    <code className="font-mono text-blue-600 font-medium">manager@npgroup.com</code>
+                  </div>
+                  <div className="flex items-center justify-between bg-white rounded px-2 py-1">
+                    <span className="text-gray-600">Password:</span>
+                    <code className="font-mono text-blue-600 font-medium">manager123</code>
+                  </div>
+                </div>
+              </div>
+            </div>
           </CardContent>
 
           <CardFooter className="px-8 pb-8 pt-0 flex justify-center">
