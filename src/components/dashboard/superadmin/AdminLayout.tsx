@@ -4,10 +4,10 @@ import {
   Settings,
   LogOut,
   Menu,
-  X,
-  Bell
 } from 'lucide-react';
+import { PanelLeftClose,PanelLeftOpen } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { NotificationsDropdown } from '@/components/dashboard/superadmin/NotificationsDropdown';
 
 interface AdminLayoutProps {
   navItems: { path: string; label: string; icon: any }[];
@@ -55,7 +55,7 @@ export const AdminLayout = ({ navItems, title, subtitle }: AdminLayoutProps) => 
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-1.5 hover:bg-restaurant-700 rounded-lg transition-colors text-white"
           >
-            {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {sidebarOpen ? <PanelLeftClose className="h-5 w-5" /> : <PanelLeftOpen className="h-5 w-5" />}
           </button>
         </div>
 
@@ -88,7 +88,7 @@ export const AdminLayout = ({ navItems, title, subtitle }: AdminLayoutProps) => 
         {/* Sidebar Footer */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-restaurant-700/50 space-y-2">
           <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => handleNavigation(`${navItems[0]?.path ?? ''}/settings`)}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-200 hover:bg-restaurant-700/50 transition-colors group"
           >
             <Settings className="h-5 w-5 text-gray-300 group-hover:text-white" />
@@ -114,10 +114,7 @@ export const AdminLayout = ({ navItems, title, subtitle }: AdminLayoutProps) => 
               {subtitle && <p className="text-sm text-gray-600 mt-1">{subtitle}</p>}
             </div>
             <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative">
-                <Bell className="h-5 w-5 text-gray-600" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
+              <NotificationsDropdown />
               <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
                 <div className="text-right">
                   <p className="text-sm font-medium text-gray-900">{user?.name || 'User'}</p>

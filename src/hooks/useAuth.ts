@@ -43,11 +43,11 @@ export const useAuth = () => {
       if (isSuperAdmin) {
         role = 'SUPER_ADMIN';
         department = 'ADMIN';
-        redirectPath = '/super-admin';
+        redirectPath = '/superadmin';
       } else if (isGeneralManager) {
         role = 'GENERAL_MANAGER';
         department = 'MANAGEMENT';
-        redirectPath = '/general-manager';
+        redirectPath = '/generalmanager';
       }
 
       const response: AuthResponse = {
