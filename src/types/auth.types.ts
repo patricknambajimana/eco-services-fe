@@ -37,3 +37,5 @@ export interface AuthResponse {
   };
   token?: string;
 }
+
+export type EntityStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'ON_LEAVE';
