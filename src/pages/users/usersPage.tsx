@@ -105,7 +105,6 @@ const mockUsers = [
 
 // Available roles
 const availableRoles = [
-  { value: 'SUPER_ADMIN', label: 'Super Admin' },
   { value: 'GENERAL_MANAGER', label: 'General Manager' },
   { value: 'ACCOUNTANT', label: 'Accountant' },
   { value: 'RESTAURANT_STOCK_MANAGER', label: 'Restaurant Stock Manager' },
