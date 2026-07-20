@@ -15,6 +15,20 @@ import { RolesPage } from '@/pages/roles/rolesPage';
 
 import { LayoutDashboard, Users, Building2, Shield, Activity, Settings } from 'lucide-react';
 import DashboardOverview from './pages/dashboard/superadmin/DashboardOverview';
+import { RestaurantLayout } from '@/components/dashboard/restaurant/restaurantLayout';
+import { RestaurantDashboardPage } from '@/pages/dashboard/restaurant/restaurantDashboardPage';
+import { RestaurantPageGuard } from '@/components/auth/restaurantPageGuard';
+import { TablesPage } from '@/pages/dashboard/restaurant/TablesPage';
+import { OrdersPage } from '@/pages/dashboard/restaurant/OrdersPage';
+import { RestaurantStaffPage } from '@/pages/dashboard/restaurant/RestaurantStaffPage';
+import { KitchenDashboardPage } from '@/pages/dashboard/restaurant/KitchenDashboardPage';
+import { KitchenTasksPage } from '@/pages/kitchen/KitchenTasksPage';
+import { StationInventoryPage } from '@/pages/kitchen/StationInventoryPage';
+import { RecipesPage } from '@/pages/kitchen/RecipesPage';
+import { PreparationSchedulePage } from '@/pages/kitchen/PreparationSchedulePage';
+
+
+
 
 const superAdminNavItems = [
   { path: '/superadmin', label: 'Dashboard', icon: LayoutDashboard },
@@ -54,6 +68,7 @@ function App() {
           <Route path="activity" element={<ActivityLogPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
+ 
 
         <Route
           path="/generalmanager"
@@ -65,6 +80,48 @@ function App() {
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
+     {/* //restaurant  */}
+      <Route path="/restaurant" element={<RestaurantLayout />}>
+        <Route index element={<RestaurantDashboardPage />} />
+        <Route element={<RestaurantPageGuard page="ORDERS" />}>
+          <Route path="orders" element={<OrdersPage />} />
+        </Route>
+        <Route element={<RestaurantPageGuard page="TABLES" />}>
+          <Route path="tables" element={<TablesPage />} />
+        </Route>
+        <Route element={<RestaurantPageGuard page="STAFF_MANAGEMENT" />}>
+          <Route path="staff" element={<RestaurantStaffPage />} />
+        </Route>
+         <Route element={<RestaurantPageGuard page="KITCHEN_DASHBOARD" />}>
+          <Route path="kitchen" element={<KitchenDashboardPage />} />
+          
+        </Route>
+        <Route element={<RestaurantPageGuard page="KITCHEN_TASKS" />}>
+    <Route path="kitchen/tasks" element={<KitchenTasksPage />} />
+  </Route>
+  
+  <Route element={<RestaurantPageGuard page="STATION_INVENTORY" />}>
+    <Route path="kitchen/station-inventory" element={<StationInventoryPage />} />
+  </Route>
+  
+  <Route element={<RestaurantPageGuard page="RECIPES" />}>
+    <Route path="kitchen/recipes" element={<RecipesPage />} />
+  </Route>
+  
+  <Route element={<RestaurantPageGuard page="PREPARATION_SCHEDULE" />}>
+    <Route path="kitchen/schedule" element={<PreparationSchedulePage />} />
+  </Route>
+  
+ {/* Add more kitchen routes as we build them */}
+  {/* <Route element={<RestaurantPageGuard page="KITCHEN_TASKS" />}>
+    <Route path="kitchen/tasks" element={<KitchenTasksPage />} />
+  </Route> */}
+        
+</Route>
+
+Flagged, not glossed over: CreateOrderDialog currently hardcodes every item's station: 'KITCHEN' — but your doc splits food (Kitchen) from drinks (Barista), and a real order will have both. Once your MenuItem type/backend has a category or station field per item, that line needs to derive the correct station instead of hardcoding it — otherwise beverage orders will never route to the Barista's BEVERAGE_ORDERS page. Want me to add a category/station field to MenuItem now, or hold off until we build the Kitchen/Barista groups next (which is probably the more natural time to fix it)?
+
+You are out of free me
     </BrowserRouter>
   );
 }
