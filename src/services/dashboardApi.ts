@@ -1,4 +1,5 @@
 import { baseApi } from './baseApi';
+import { USE_MOCK } from '@/config/env';
 import type { DashboardData, Department } from '@/types';
 
 interface BackendDashboard {
@@ -55,8 +56,10 @@ const normalizeDashboard = (response: BackendDashboard | { data?: BackendDashboa
 export const dashboardApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         getDashboard: build.query<DashboardData, Department>({
-            query: () => ({
-                url: '/reports/dashboard',
+            query: (department) => ({
+                // The mock server exposes department-scoped dashboards; the backend
+                // aggregates the authenticated user's department at this endpoint.
+                url: USE_MOCK ? `/dashboard/${department}` : '/reports/dashboard',
                 headers: { 'Cache-Control': 'no-cache' },
             }),
             transformResponse: normalizeDashboard,

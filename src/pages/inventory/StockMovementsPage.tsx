@@ -36,7 +36,7 @@ export default function StockMovementsPage() {
 
     return (
         <>
-            <PageHeader title="Stock movements" subtitle="Every inventory transaction"
+            <PageHeader title={scope ? `${scope} stock movements` : 'Stock movements'} subtitle={scope ? `Inventory flow for the ${scope.toLowerCase()} department` : 'Every inventory transaction'}
                 actions={<Button onClick={() => setOpen(true)}><Plus size={16} /> Record movement</Button>} />
             <DataTable columns={columns} data={rows} isLoading={isLoading} rowKey={(m) => m.id} />
             {open && (

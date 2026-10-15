@@ -1,7 +1,7 @@
 import { baseApi } from './baseApi';
 import type {
     BatchStatus, GiftRequest, KitchenStatus, KitchenTicket, MenuItem, ProductionBatch,
-    TableItem, TableStatus,
+    TableItem, TableStatus, OperatingDepartment, CreateMenuItemPayload,
 } from '@/types';
 
 interface BackendTable {
@@ -58,6 +58,13 @@ export const operationsApi = baseApi.injectEndpoints({
             queryFn: async () => ({ error: { status: 501, message: 'Gift service endpoints are not available in the current backend.' } }),
             invalidatesTags: ['Gifts'],
         }),
+        getPublicMenu: build.query<MenuItem[], OperatingDepartment>({
+            query: (dept) => ({ url: `/public/menu/${dept}` }),
+        }),
+        createMenuItem: build.mutation<MenuItem, CreateMenuItemPayload>({
+            query: (data) => ({ url: '/menu', method: 'POST', data }),
+            invalidatesTags: ['Menu'],
+        }),
     }),
 });
 
@@ -65,4 +72,5 @@ export const {
     useGetBatchesQuery, useUpdateBatchMutation, useGetTablesQuery, useUpdateTableMutation,
     useGetKitchenQuery, useUpdateKitchenMutation, useGetMenuQuery, useUpdateMenuItemMutation,
     useGetGiftsQuery, useUpdateGiftMutation,
+    useGetPublicMenuQuery, useCreateMenuItemMutation,
 } = operationsApi;

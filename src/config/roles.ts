@@ -1,11 +1,17 @@
-import { ROLES } from '@/types';
 import type { Department, OperatingDepartment, Role } from '@/types';
 
 export const ROLES_BY_DEPARTMENT: Record<Department, Role[]> = {
     MANAGEMENT: ['SUPER_ADMIN', 'GENERAL_MANAGER', 'ACCOUNTANT'],
-    RESTAURANT: ROLES.filter((r) => r.startsWith('RESTAURANT_')),
-    BAKERY: ROLES.filter((r) => r.startsWith('BAKERY_')),
-    DECORATION: ROLES.filter((r) => r.startsWith('DECORATION_')),
+    // Keep creation options aligned with the backend POST /staff enum.
+    RESTAURANT: [
+        'RESTAURANT_STOCK_MANAGER', 'RESTAURANT_CHEF_LEADER', 'RESTAURANT_CHEF',
+        'RESTAURANT_WAITER_LEADER', 'RESTAURANT_WAITER', 'RESTAURANT_CASHIER', 'RESTAURANT_BARISTA',
+    ],
+    BAKERY: [
+        'BAKERY_STOCK_MANAGER', 'BAKERY_CASHIER', 'BAKERY_CHEF_LEADER',
+        'BAKERY_CHEF', 'BAKERY_BARISTA',
+    ],
+    DECORATION: ['DECORATION_CASHIER', 'DECORATION_STAFF'],
 };
 
 export const DEPARTMENT_OPTIONS: { value: Department; label: string }[] = [

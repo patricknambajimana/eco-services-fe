@@ -39,7 +39,7 @@ export default function SchedulePage() {
 
     return (
         <>
-            <PageHeader title="Staff schedule" subtitle="Weekly shift planning"
+            <PageHeader title={scope ? `${scope} schedule` : 'Staff schedule'} subtitle={scope ? `Weekly shift planning for ${scope.toLowerCase()}` : 'Weekly shift planning'}
                 actions={<Button onClick={() => setOpen(true)}><Plus size={16} /> Add shift</Button>} />
             <div className="grid gap-3 md:grid-cols-4 xl:grid-cols-7">
                 {DAYS.map((d, i) => (

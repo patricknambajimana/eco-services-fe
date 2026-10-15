@@ -1,7 +1,7 @@
 import {
     ArrowLeftRight, BarChart3, CalendarDays, ChefHat, ClipboardList, Gift, KeyRound,
     LayoutDashboard, LayoutGrid, Package, PlusCircle, Settings, ShoppingCart, Store,
-    Truck, UtensilsCrossed, Users, Wheat,
+    Mail, QrCode, Truck, UtensilsCrossed, Users, Wheat,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { Role } from '@/types';
@@ -30,4 +30,6 @@ export const NAV_ITEMS: NavItem[] = [
     { label: 'Schedule', path: '/staff/schedule', icon: CalendarDays, section: 'People', roles: ACCESS.schedule },
     { label: 'Reports', path: '/reports', icon: BarChart3, section: 'Insights', roles: ACCESS.reports },
     { label: 'Settings', path: '/settings', icon: Settings, section: 'System', roles: 'ALL' },
+    { label: 'Menu & QR', path: '/menus', icon: QrCode, section: 'Operations', roles: ACCESS.menu },
+    { label: 'Messages & Email', path: '/communications', icon: Mail, section: 'People', roles: ACCESS.communications },
 ];

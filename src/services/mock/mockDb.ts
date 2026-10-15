@@ -145,7 +145,7 @@ export const kitchen: KitchenTicket[] = [
 
 export const menu: MenuItem[] = catalog
     .filter((p) => p.department === 'RESTAURANT')
-    .map((p) => ({ id: p.id, name: p.name, category: p.category, price: p.price, available: true }));
+    .map((p) => ({ id: p.id, name: p.name, category: p.category, department: 'RESTAURANT' as const, price: p.price, available: true }));
 
 export const gifts: GiftRequest[] = [
     { id: 'g1', customer: 'Grace Uwase', instructions: 'Gold wrapping with ribbon', delivery: 'Deliver Friday 10:00', status: 'PENDING' },
@@ -187,6 +187,17 @@ export const dashboards: Record<Department, DashboardData> = {
                 { name: 'Restaurant', value: 5.8 }, { name: 'Bakery', value: 3.0 }, { name: 'Decoration', value: 2.9 }]
         },
         alerts: ['Butter is expired in Bakery', 'Sugar is out of stock', 'Table Lamp is below minimum stock'],
+        analysis: [
+            { label: 'Profit margin', value: '37.4%', detail: 'Across separately tracked departments' },
+            { label: 'Order completion', value: '86%', detail: 'Completed within expected service time' },
+            { label: 'Revenue per user', value: 'RWF 426K', detail: 'Average monthly contribution' },
+            { label: 'Expense coverage', value: '2.2×', detail: 'Revenue compared with expenses' },
+        ],
+        departmentPerformance: [
+            { department: 'RESTAURANT', revenue: 5800000, users: 12, profit: 2140000, expenses: 3660000 },
+            { department: 'BAKERY', revenue: 3000000, users: 9, profit: 1250000, expenses: 1750000 },
+            { department: 'DECORATION', revenue: 2900000, users: 4, profit: 980000, expenses: 1920000 },
+        ],
     },
     RESTAURANT: {
         title: 'Restaurant Dashboard',
@@ -202,6 +213,15 @@ export const dashboards: Record<Department, DashboardData> = {
                 { name: 'Pizza', value: 42 }, { name: 'Chicken', value: 36 }, { name: 'Coffee', value: 58 }, { name: 'Juice', value: 24 }]
         },
         alerts: ['Tomatoes below minimum stock', 'Coffee Beans critical'],
+        analysis: [
+            { label: 'Average order', value: 'RWF 8,450', detail: 'Based on recent restaurant orders' },
+            { label: 'Table utilization', value: '68%', detail: 'Current occupied and reserved capacity' },
+            { label: 'Kitchen completion', value: '91%', detail: 'Tickets completed on schedule' },
+            { label: 'Ingredient variance', value: '4.8%', detail: 'Usage compared with planned portions' },
+        ],
+        departmentPerformance: [
+            { department: 'RESTAURANT', revenue: 5800000, users: 12, profit: 2140000, expenses: 3660000 },
+        ],
     },
     BAKERY: {
         title: 'Bakery Dashboard',
@@ -217,6 +237,15 @@ export const dashboards: Record<Department, DashboardData> = {
                 { name: 'Bread', value: 120 }, { name: 'Croissant', value: 95 }, { name: 'Cake', value: 40 }, { name: 'Coffee', value: 150 }]
         },
         alerts: ['Butter expired', 'Sugar out of stock'],
+        analysis: [
+            { label: 'Production yield', value: '94.2%', detail: 'Good output from planned batches' },
+            { label: 'Waste rate', value: '4.1%', detail: 'Unsold or expired product share' },
+            { label: 'Best category', value: 'Coffee', detail: 'Highest weekly product movement' },
+            { label: 'Stock cover', value: '12 days', detail: 'Estimated supply at current usage' },
+        ],
+        departmentPerformance: [
+            { department: 'BAKERY', revenue: 3000000, users: 9, profit: 1250000, expenses: 1750000 },
+        ],
     },
     DECORATION: {
         title: 'Decoration Dashboard',
@@ -232,5 +261,14 @@ export const dashboards: Record<Department, DashboardData> = {
                 { name: 'Wall Art', value: 18 }, { name: 'Lighting', value: 12 }, { name: 'Gifts', value: 26 }, { name: 'Home', value: 9 }]
         },
         alerts: ['Table Lamp below minimum stock'],
+        analysis: [
+            { label: 'Average order', value: 'RWF 32K', detail: 'Average decoration order value' },
+            { label: 'Showroom conversion', value: '41%', detail: 'Visitors converted to customers' },
+            { label: 'Gift fulfilment', value: '93%', detail: 'Requests completed on time' },
+            { label: 'Slow movers', value: '5 items', detail: 'Products needing pricing review' },
+        ],
+        departmentPerformance: [
+            { department: 'DECORATION', revenue: 2900000, users: 4, profit: 980000, expenses: 1920000 },
+        ],
     },
 };

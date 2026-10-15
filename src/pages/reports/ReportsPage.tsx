@@ -8,7 +8,7 @@ import Card from '@/components/ui/LegacyCard';
 import StatCard from '@/components/ui/StatCard';
 import { DollarSign, TrendingDown, TrendingUp } from 'lucide-react';
 
-const COLORS = { restaurant: '#16a34a', bakery: '#f59e0b', decoration: '#3b82f6' } as const;
+const COLORS = { restaurant: '#c94f2d', bakery: '#c13778', decoration: '#7c4dce' } as const;
 type Key = keyof typeof COLORS;
 
 export default function ReportsPage() {
@@ -25,7 +25,7 @@ export default function ReportsPage() {
 
     return (
         <>
-            <PageHeader title="Reports & analytics" subtitle={scope ? `${scope} performance` : 'Cross-department performance'} />
+            <PageHeader title={scope ? `${scope} reports & analytics` : 'Reports & analytics'} subtitle={scope ? `Financial and operational analysis for ${scope.toLowerCase()}` : 'Cross-department performance'} />
             {showFinance && (
                 <div className="mb-6 grid gap-4 sm:grid-cols-3">
                     <StatCard label="Total revenue" value={formatCurrency(sum((r) => r.total))} icon={DollarSign} />
@@ -54,7 +54,7 @@ export default function ReportsPage() {
                                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" /><XAxis dataKey="month" fontSize={12} />
                                     <YAxis fontSize={12} tickFormatter={(v: number) => `${v / 1_000_000}M`} />
                                     <Tooltip formatter={(v) => formatCurrency(Number(v))} /><Legend />
-                                    <Line dataKey="total" name="Revenue" stroke="#16a34a" strokeWidth={2} />
+                                    <Line dataKey="total" name="Revenue" stroke="#c13778" strokeWidth={2} />
                                     <Line dataKey="expenses" name="Expenses" stroke="#ef4444" strokeWidth={2} />
                                     <Line dataKey="profit" name="Profit" stroke="#3b82f6" strokeWidth={2} />
                                 </LineChart>

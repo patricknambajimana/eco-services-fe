@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Leaf } from 'lucide-react';
 import { useLoginMutation } from '@/services/authApi';
 import { setCredentials } from '@/store/authSlice';
 import { useAppDispatch } from '@/store/hooks';
@@ -41,7 +40,7 @@ export default function LoginPage() {
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-50 to-brand-100 p-4">
             <form onSubmit={onSubmit} className="w-full max-w-md space-y-4 rounded-2xl bg-white p-8 shadow-xl">
                 <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-white"><Leaf /></div>
+                    <img src="/logo/EcoServices%20Business%20Management%20Logo.png" alt="Eco-Services Business Management" className="mx-auto mb-4 h-16 w-auto object-contain" />
                     <h1 className="text-lg font-bold">{APP_NAME}</h1>
                     <p className="text-sm text-slate-500">Sign in to continue</p>
                 </div>

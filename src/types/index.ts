@@ -103,6 +103,57 @@ export interface StaffMember {
     department: Department; role: Role; status: StaffStatus; credentialId: string;
 }
 
+export interface CreateStaffPayload {
+    fullName: string;
+    email: string;
+    phone: string;
+    departmentId?: number;
+    status: StaffStatus;
+    roles: Role[];
+    username: string;
+    password: string;
+    pin: string;
+}
+
+export interface UpdateCredentialsPayload {
+    password?: string;
+    pin?: string;
+}
+
+export interface CommunicationMessage {
+    id: string;
+    senderId: string;
+    senderName: string;
+    recipientId: string;
+    recipientName: string;
+    body: string;
+    createdAt: string;
+    read: boolean;
+}
+
+export interface CommunicationEmail {
+    id: string;
+    senderId: string;
+    senderName: string;
+    recipientId: string;
+    recipientName: string;
+    subject: string;
+    body: string;
+    createdAt: string;
+    status: 'SENT' | 'FAILED';
+}
+
+export interface SendMessagePayload {
+    recipientId: string;
+    body: string;
+}
+
+export interface SendEmailPayload {
+    recipientId: string;
+    subject: string;
+    body: string;
+}
+
 export interface Shift {
     id: string; staffId: string; staffName: string; department: Department;
     day: number; start: string; end: string; shiftDate?: string;
@@ -129,8 +180,14 @@ export interface KitchenTicket {
     id: string; orderId: string; table: string; items: string[]; status: KitchenStatus; createdAt: string;
 }
 
-export interface MenuItem { id: string; name: string; category: string; price: number; available: boolean }
+export interface MenuItem {
+    id: string; name: string; category: string; department: OperatingDepartment;
+    description?: string; price: number; available: boolean;
+}
 
+export interface CreateMenuItemPayload {
+    name: string; category: string; department: OperatingDepartment; description?: string; price: number;
+}
 export interface GiftRequest {
     id: string; customer: string; instructions: string; delivery: string;
     status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
@@ -142,6 +199,16 @@ export interface DashboardData {
     trend: { title: string; data: { name: string; value: number }[] };
     breakdown: { title: string; data: { name: string; value: number }[] };
     alerts: string[];
+    departmentPerformance?: DepartmentPerformance[];
+    analysis?: { label: string; value: string; detail: string }[];
+}
+
+export interface DepartmentPerformance {
+    department: OperatingDepartment;
+    revenue: number;
+    users: number;
+    profit: number;
+    expenses: number;
 }
 
 export interface RevenueRow {

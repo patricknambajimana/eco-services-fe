@@ -1,5 +1,5 @@
 import { baseApi } from './baseApi';
-import type { CreateShiftPayload, Department, Role, Shift, StaffMember, StaffStatus } from '@/types';
+import type { CreateShiftPayload, CreateStaffPayload, Department, Role, Shift, StaffMember, StaffStatus, UpdateCredentialsPayload } from '@/types';
 
 interface BackendStaff {
     userId?: string | number;
@@ -75,15 +75,24 @@ export const staffApi = baseApi.injectEndpoints({
             transformResponse: (staff: BackendStaff[]) => staff.map(normalizeStaff),
             providesTags: ['Staff'],
         }),
-        createStaff: build.mutation<StaffMember, Partial<StaffMember>>({
+        createStaff: build.mutation<StaffMember, CreateStaffPayload>({
             query: (data) => ({ url: '/staff', method: 'POST', data }), invalidatesTags: ['Staff'],
         }),
         updateStaff: build.mutation<StaffMember, Partial<StaffMember> & { id: string }>({
             query: ({ id, ...data }) => ({ url: `/staff/${id}`, method: 'PUT', data }),
             invalidatesTags: ['Staff'],
         }),
+        deleteStaff: build.mutation<void, string>({
+            query: (id) => ({ url: `/staff/${id}`, method: 'DELETE' }),
+            invalidatesTags: ['Staff'],
+        }),
         resetCredentials: build.mutation<{ temporaryPin: string }, string>({
             query: (id) => ({ url: `/staff/${id}/credentials`, method: 'PUT', data: {} }),
+            invalidatesTags: ['Staff'],
+        }),
+        updateCredentials: build.mutation<void, { id: string; data: UpdateCredentialsPayload }>({
+            query: ({ id, data }) => ({ url: `/staff/${id}/credentials`, method: 'PUT', data }),
+            invalidatesTags: ['Staff'],
         }),
         getSchedule: build.query<Shift[], void>({
             query: () => ({ url: '/staff/schedules', headers: { 'Cache-Control': 'no-cache, no-store' } }),
@@ -97,6 +106,6 @@ export const staffApi = baseApi.injectEndpoints({
 });
 
 export const {
-    useGetStaffQuery, useCreateStaffMutation, useUpdateStaffMutation, useResetCredentialsMutation,
+    useGetStaffQuery, useCreateStaffMutation, useUpdateStaffMutation, useDeleteStaffMutation, useResetCredentialsMutation, useUpdateCredentialsMutation,
     useGetScheduleQuery, useCreateShiftMutation,
 } = staffApi;

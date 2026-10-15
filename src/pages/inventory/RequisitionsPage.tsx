@@ -49,7 +49,7 @@ export default function RequisitionsPage() {
 
     return (
         <>
-            <PageHeader title="Inventory requisitions" subtitle="Request, review and approve stock"
+            <PageHeader title={scope ? `${scope} requisitions` : 'Inventory requisitions'} subtitle={scope ? `Requests for the ${scope.toLowerCase()} department` : 'Request, review and approve stock'}
                 actions={<Button onClick={() => setOpen(true)}><Plus size={16} /> New request</Button>} />
             <DataTable columns={columns} data={rows} isLoading={isLoading} rowKey={(r) => r.id} />
             {open && (

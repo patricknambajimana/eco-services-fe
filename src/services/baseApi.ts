@@ -9,6 +9,7 @@ export const baseApi = createApi({
     tagTypes: [
         'Orders', 'Inventory', 'Movements', 'Requisitions', 'Staff', 'Schedule',
         'Batches', 'Tables', 'Kitchen', 'Menu', 'Gifts',
+        'Communications',
     ],
     endpoints: () => ({}),
 });

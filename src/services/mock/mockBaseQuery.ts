@@ -1,6 +1,6 @@
 import type { BaseQueryFn } from '@reduxjs/toolkit/query';
 import type { ApiArgs, ApiError } from '../apiTypes';
-import type { Department, Order, OrderItem, StockMovement } from '@/types';
+import type { CommunicationEmail, CommunicationMessage, Department, Order, OrderItem, StockMovement } from '@/types';
 import * as db from './mockDb';
 
 class MockError extends Error {
@@ -9,6 +9,8 @@ class MockError extends Error {
 const fail = (status: number, message: string): never => { throw new MockError(status, message); };
 const now = () => new Date().toISOString();
 const uid = (p: string) => `${p}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+const messages: CommunicationMessage[] = [];
+const emails: CommunicationEmail[] = [];
 const byId = <T extends { id: string }>(list: T[], id: string): T =>
     list.find((x) => x.id === id) ?? fail(404, 'Record not found');
 
@@ -19,8 +21,9 @@ type Handler = (c: { ids: string[]; body: Body }) => unknown;
 const routes: [string, string, Handler][] = [
     // ---------- auth ----------
     ['POST', '/auth/login', ({ body }) => {
-        const u = db.users.find((x) => x.credentialId === String(body.credentialId).trim().toUpperCase() && x.password === body.password);
-        if (!u || u.department !== body.department) return fail(401, 'Invalid credentials or department.');
+        const credential = String(body.username ?? body.credentialId ?? '').trim().toUpperCase();
+        const u = db.users.find((x) => x.credentialId === credential && x.password === body.password);
+        if (!u) return fail(401, 'Invalid username or password.');
         const s = db.staff.find((x) => x.credentialId === u.credentialId);
         if (s && s.status !== 'ACTIVE') return fail(403, `Your account is ${s.status.toLowerCase().replace('_', ' ')}.`);
         const { password: _pw, ...user } = u;
@@ -105,21 +108,72 @@ const routes: [string, string, Handler][] = [
 
     // ---------- staff ----------
     ['GET', '/staff', () => db.staff],
+    ['GET', '/communications/messages', () => messages],
+    ['POST', '/communications/messages', ({ body }) => {
+        if (!body.recipientId || !String(body.body ?? '').trim()) return fail(400, 'Recipient and message are required.');
+        const recipient = db.staff.find((member) => member.id === String(body.recipientId));
+        if (!recipient) return fail(404, 'Recipient not found.');
+        const message = {
+            id: uid('msg'), senderId: 'mock-manager', senderName: 'General Manager',
+            recipientId: recipient.id, recipientName: recipient.fullName, body: String(body.body).trim(),
+            createdAt: now(), read: false,
+        };
+        messages.unshift(message);
+        return message;
+    }],
+    ['GET', '/communications/emails', () => emails],
+    ['POST', '/communications/emails', ({ body }) => {
+        if (!body.recipientId || !String(body.subject ?? '').trim() || !String(body.body ?? '').trim()) {
+            return fail(400, 'Recipient, subject, and email body are required.');
+        }
+        const recipient = db.staff.find((member) => member.id === String(body.recipientId));
+        if (!recipient) return fail(404, 'Recipient not found.');
+        const email = {
+            id: uid('mail'), senderId: 'mock-manager', senderName: 'General Manager',
+            recipientId: recipient.id, recipientName: recipient.fullName, subject: String(body.subject).trim(),
+            body: String(body.body).trim(), createdAt: now(), status: 'SENT' as const,
+        };
+        emails.unshift(email);
+        return email;
+    }],
     ['POST', '/staff', ({ body }) => {
-        const prefix = { MANAGEMENT: 'M', RESTAURANT: 'R', BAKERY: 'B', DECORATION: 'D' }[body.department as Department];
-        const credentialId = `${prefix}${String(db.staff.length + 1).padStart(3, '0')}N`;
-        const member = { ...body, id: uid('u'), credentialId } as (typeof db.staff)[number];
+        const departmentsById: Record<number, Department> = { 1: 'RESTAURANT', 2: 'BAKERY', 3: 'DECORATION' };
+        const department = body.departmentId === undefined
+            ? 'MANAGEMENT'
+            : departmentsById[Number(body.departmentId)] ?? fail(400, 'A valid departmentId is required.');
+        const roles = Array.isArray(body.roles) ? body.roles : [];
+        if (!body.fullName || !body.username || !body.password || !body.pin || roles.length === 0) {
+            return fail(400, 'fullName, username, password, pin, and roles are required.');
+        }
+        const credentialId = String(body.username).trim();
+        const member = {
+            ...body,
+            id: uid('u'),
+            credentialId,
+            department,
+            role: roles[0],
+        } as (typeof db.staff)[number];
         db.staff.push(member);
-        db.users.push({ id: member.id, fullName: member.fullName, credentialId, password: '1234', role: member.role, department: member.department });
+        db.users.push({ id: member.id, fullName: member.fullName, credentialId, password: body.password, role: member.role, department: member.department });
         return member;
     }],
     ['PATCH', '/staff/:id', ({ ids, body }) => Object.assign(byId(db.staff, ids[0]), body)],
-    ['POST', '/staff/:id/reset', ({ ids }) => {
+    ['PUT', '/staff/:id', ({ ids, body }) => Object.assign(byId(db.staff, ids[0]), body)],
+    ['DELETE', '/staff/:id', ({ ids }) => {
+        const index = db.staff.findIndex((member) => member.id === ids[0]);
+        if (index < 0) return fail(404, 'Staff member not found.');
+        const [removed] = db.staff.splice(index, 1);
+        const userIndex = db.users.findIndex((user) => user.id === removed.id);
+        if (userIndex >= 0) db.users.splice(userIndex, 1);
+        return { success: true };
+    }],
+    ['PUT', '/staff/:id/credentials', ({ ids, body }) => {
         const s = byId(db.staff, ids[0]);
-        const pin = String(Math.floor(100000 + Math.random() * 900000));
         const u = db.users.find((x) => x.credentialId === s.credentialId);
-        if (u) u.password = pin;
-        return { temporaryPin: pin };
+        if (body.password !== undefined && String(body.password).length < 8) return fail(400, 'Password must be at least 8 characters.');
+        if (body.pin !== undefined && !/^\d{4,6}$/.test(String(body.pin))) return fail(400, 'PIN must contain 4 to 6 digits.');
+        if (u && body.password) u.password = String(body.password);
+        return body.pin ? { success: true } : { temporaryPin: String(Math.floor(100000 + Math.random() * 900000)) };
     }],
     ['GET', '/schedule', () => db.schedule],
     ['POST', '/schedule', ({ body }) => {

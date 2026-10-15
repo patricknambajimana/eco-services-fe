@@ -4,47 +4,73 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* =========================================
+   1. BRAND AND INDUSTRY COLORS
+   ========================================= */
+
 @theme {
-    --color-brand-50: #f0fdf4;
-    --color-brand-100: #dcfce7;
-    --color-brand-200: #bbf7d0;
-    --color-brand-500: #22c55e;
-    --color-brand-600: #16a34a;
-    --color-brand-700: #15803d;
-    --color-brand-800: #166534;
-    --color-brand-900: #14532d;
+    /* Core brand: Bakery berry */
+    --color-brand-50: #fff0f6;
+    --color-brand-100: #fce0eb;
+    --color-brand-200: #f2bfd3;
+    --color-brand-300: #e78eb3;
+    --color-brand-400: #d45b94;
+    --color-brand-500: #c13778;
+    --color-brand-600: #a12661;
+    --color-brand-700: #801e4e;
+    --color-brand-800: #5f173b;
+    --color-brand-900: #43132d;
+
+    /* Slate Blue */
+    --color-slate-blue-50: #eff4ff;
+    --color-slate-blue-100: #dbe7ff;
+    --color-slate-blue-200: #bfd3ff;
+    --color-slate-blue-500: #3b5bdb;
+    --color-slate-blue-600: #3451c6;
+    --color-slate-blue-700: #2943a8;
+    --color-slate-blue-900: #172b4d;
+
+    /* Eco-Services */
+    --color-eco-50: #f0f7eb;
+    --color-eco-100: #e0edd5;
+    --color-eco-500: #648b4e;
+    --color-eco-600: #4d713a;
+    --color-eco-700: #3d5b2f;
+    --color-earth: #8b5e3c;
+
+    /* Restaurants */
+    --color-restaurant-50: #fff1eb;
+    --color-restaurant-100: #ffded2;
+    --color-restaurant-500: #c94f2d;
+    --color-restaurant-600: #a83d23;
+    --color-restaurant-700: #842d1a;
+
+    /* Bakeries */
+    --color-bakery-50: #fff0f6;
+    --color-bakery-100: #fce0eb;
+    --color-bakery-500: #c13778;
+    --color-bakery-600: #a12661;
+    --color-bakery-700: #801e4e;
+    --color-bakery-gold: #b7791f;
+
+    /* Decoration */
+    --color-decoration-50: #f4efff;
+    --color-decoration-100: #e8dcff;
+    --color-decoration-500: #7c4dce;
+    --color-decoration-600: #673ab7;
+    --color-decoration-700: #512d96;
+    --color-decoration-gold: #b88716;
+
+    /* Typography */
+    --font-heading: var(--font-sans);
+    --font-sans: "Geist Variable", sans-serif;
 }
 
-@layer base {
-    body {
-        @apply antialiased bg-background text-foreground;
-    }
-  * {
-    @apply border-border outline-ring/50;
-    }
-  html {
-    @apply font-sans;
-    }
-}
-
-@layer components {
-    .input {
-        @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100 disabled:bg-slate-100;
-    }
-}
-
-@media print {
-
-    aside,
-    header,
-    .no-print {
-        display: none !important;
-    }
-}
+/* =========================================
+   2. SHADCN/UI THEME MAPPING
+   ========================================= */
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -53,11 +79,13 @@
     --color-sidebar-primary: var(--sidebar-primary);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
+
     --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
     --color-ring: var(--ring);
     --color-input: var(--input);
     --color-border: var(--border);
@@ -76,6 +104,7 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
+
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -85,71 +114,246 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* =========================================
+   3. LIGHT MODE
+   ========================================= */
+
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
+    color-scheme: light;
+
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+
+    --background: #f8fafc;
+    --foreground: #172033;
+
+    --card: #ffffff;
+    --card-foreground: #172033;
+
+    --popover: #ffffff;
+    --popover-foreground: #172033;
+
+    /* Bakery berry primary */
+    --primary: #a12661;
+    --primary-foreground: #ffffff;
+
+    --secondary: #eef2f8;
+    --secondary-foreground: #26354b;
+
+    --muted: #f1f5f9;
+    --muted-foreground: #596579;
+
+    --accent: #fce0eb;
+    --accent-foreground: #801e4e;
+
+    --destructive: #b42318;
+
+    --border: #e2e8f0;
+    --input: #d5deea;
+    --ring: #c13778;
+
+    /* Charts:
+     1. Eco-services
+     2. Restaurants
+     3. Bakeries
+     4. Decoration
+     5. Core brand / supporting series
+  */
+    --chart-1: #4d713a;
+    --chart-2: #c94f2d;
+    --chart-3: #c13778;
+    --chart-4: #7c4dce;
+    --chart-5: #3b5bdb;
+
+    /* Sidebar */
+    --sidebar: #43132d;
+    --sidebar-foreground: #fff0f6;
+
+    --sidebar-primary: #c13778;
+    --sidebar-primary-foreground: #ffffff;
+
+    --sidebar-accent: #5f173b;
+    --sidebar-accent-foreground: #fff0f6;
+
+    --sidebar-border: #6f2148;
+    --sidebar-ring: #e78eb3;
 }
 
+/* =========================================
+   4. DARK MODE
+   ========================================= */
+
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    color-scheme: dark;
+
+    --background: #0b1220;
+    --foreground: #f1f5f9;
+
+    --card: #162235;
+    --card-foreground: #f1f5f9;
+
+    --popover: #162235;
+    --popover-foreground: #f1f5f9;
+
+    /* Brighter blue for dark backgrounds */
+    --primary: #8ba5ff;
+    --primary-foreground: #101a35;
+
+    --secondary: #243248;
+    --secondary-foreground: #e2e8f0;
+
+    --muted: #202e43;
+    --muted-foreground: #b0bdd0;
+
+    --accent: #26385d;
+    --accent-foreground: #dbe5ff;
+
+    --destructive: #ff7777;
+
+    --border: #2d3b50;
+    --input: #35455c;
+    --ring: #8ba5ff;
+
+    /* Brighter industry chart colors */
+    --chart-1: #91bd72;
+    --chart-2: #ff936f;
+    --chart-3: #f58aba;
+    --chart-4: #b69aff;
+    --chart-5: #8ba5ff;
+
+    /* Deep navy sidebar */
+    --sidebar: #111d30;
+    --sidebar-foreground: #dbe5f3;
+
+    --sidebar-primary: #d45b94;
+    --sidebar-primary-foreground: #2d0d1e;
+
+    --sidebar-accent: #24364c;
+    --sidebar-accent-foreground: #f1f5f9;
+
+    --sidebar-border: #2d3b50;
+    --sidebar-ring: #e78eb3;
+}
+
+/* =========================================
+   5. GLOBAL BASE STYLES
+   ========================================= */
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    html {
+        @apply font-sans;
+    }
+
+    body {
+        @apply antialiased bg-background text-foreground;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        font: inherit;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    ::selection {
+        background: #fce0eb;
+        color: #801e4e;
+    }
+
+    .dark ::selection {
+        background: #166534;
+        color: #ffffff;
+    }
+}
+
+/* =========================================
+   6. REUSABLE INPUT COMPONENT
+   ========================================= */
+
+@layer components {
+    .input {
+        @apply w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .button-primary {
+        @apply rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:-translate-y-px hover:bg-primary/90 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    }
+
+    .industry-eco {
+        color: #3d5b2f;
+        background: #f0f7eb;
+        border-color: #cfe3c1;
+    }
+
+    .industry-restaurant {
+        color: #842d1a;
+        background: #fff1eb;
+        border-color: #f5c9b9;
+    }
+
+    .industry-bakery {
+        color: #801e4e;
+        background: #fff0f6;
+        border-color: #f2c6da;
+    }
+
+    .industry-decoration {
+        color: #512d96;
+        background: #f4efff;
+        border-color: #d8c7ff;
+    }
+
+    .dark .industry-eco {
+        color: #c4e7b0;
+        background: #203725;
+        border-color: #3d5b2f;
+    }
+
+    .dark .industry-restaurant {
+        color: #ffc0aa;
+        background: #40271f;
+        border-color: #78412f;
+    }
+
+    .dark .industry-bakery {
+        color: #ffc0dc;
+        background: #402438;
+        border-color: #78405d;
+    }
+
+    .dark .industry-decoration {
+        color: #d7c4ff;
+        background: #302448;
+        border-color: #60478b;
+    }
+}
+
+/* =========================================
+   7. PRINT
+   ========================================= */
+
+@media print {
+
+    aside,
+    header,
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
 }

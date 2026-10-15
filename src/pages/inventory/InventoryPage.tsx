@@ -41,7 +41,7 @@ export default function InventoryPage() {
 
     return (
         <>
-            <PageHeader title="Inventory" subtitle="Real-time stock levels" />
+            <PageHeader title={scope ? `${scope} inventory` : 'Inventory'} subtitle={scope ? `Stock levels for the ${scope.toLowerCase()} department` : 'Real-time stock levels'} />
             <div className="mb-4 grid gap-3 sm:grid-cols-3">
                 <Input placeholder="Search items" value={search} onChange={(e) => setSearch(e.target.value)} />
                 {!scope && <Select value={dept} onChange={(e) => setDept(e.target.value)} placeholder="All departments"
